@@ -33,16 +33,10 @@ class MainActivity : AppCompatActivity() {
                 adapter = sampleAdapter
             }
         }
-        var person1 = SampleModel(1,"raj")
-        var person2 = SampleModel(2,"riu")
-        var person3 = SampleModel(3,"hello")
-        nameList.add(person1)
-        nameList.add(person2)
-        nameList.add(person3)
-        sampleAdapter.setData(nameList)
+
+
         binding.fabButton.setOnClickListener {
             openDialog()
-            sampleAdapter.setData(nameList)
         }
     }
     private fun openDialog(){
@@ -52,8 +46,11 @@ class MainActivity : AppCompatActivity() {
             .setTitle("Enter your Name!!")
             .setView(editText)
             .setPositiveButton("Add"){_,_->
-                 var dummyData = SampleModel(i++,editText.text.toString())
-                 nameList.add(dummyData)
+                var text = editText.text.toString()
+                nameList.add(SampleModel(i++,text))
+                 sampleAdapter.setData(nameList)
             }.create().show()
     }
+
+
 }

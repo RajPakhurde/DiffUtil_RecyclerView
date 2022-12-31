@@ -8,7 +8,7 @@ import com.rajpakhurde.diffutil_recyclerview.databinding.ListItemBinding
 
 class SampleAdapter : RecyclerView.Adapter<SampleAdapter.SampleViewHolder>() {
 
-    private var oldSampleList = emptyList<SampleModel>()
+    private var oldSampleList = mutableListOf<SampleModel>()
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): SampleViewHolder {
         return SampleViewHolder(ListItemBinding.inflate(LayoutInflater.from(parent.context), parent, false))
@@ -29,7 +29,7 @@ class SampleAdapter : RecyclerView.Adapter<SampleAdapter.SampleViewHolder>() {
         }
     }
 
-    fun setData(newSampleList: List<SampleModel>){
+    fun setData(newSampleList: MutableList<SampleModel>){
         var diffUtil = MyDiffUtil(oldSampleList,newSampleList)
         var diffResult = DiffUtil.calculateDiff(diffUtil)
         oldSampleList = newSampleList
