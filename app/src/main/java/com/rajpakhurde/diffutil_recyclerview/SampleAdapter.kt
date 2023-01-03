@@ -1,12 +1,22 @@
 package com.rajpakhurde.diffutil_recyclerview
 
 import android.view.LayoutInflater
+import android.view.View
 import android.view.ViewGroup
+import android.widget.TextView
+import androidx.cardview.widget.CardView
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.rajpakhurde.diffutil_recyclerview.databinding.ListItemBinding
+import org.w3c.dom.Text
 
-class SampleAdapter : RecyclerView.Adapter<SampleAdapter.SampleViewHolder>() {
+class SampleAdapter(
+    val clickListener: ItemClickedListener
+) : RecyclerView.Adapter<SampleAdapter.SampleViewHolder>() {
+
+    interface ItemClickedListener{
+        fun onClicked(position: Int)
+    }
 
     private var oldSampleList = mutableListOf<SampleModel>()
 
@@ -21,10 +31,15 @@ class SampleAdapter : RecyclerView.Adapter<SampleAdapter.SampleViewHolder>() {
     override fun getItemCount(): Int = oldSampleList.size
 
     inner class SampleViewHolder(var binding: ListItemBinding) : RecyclerView.ViewHolder(binding.root) {
+
         fun bind(position: Int) {
             binding.apply {
                 tvId.text = oldSampleList[position].id.toString()
                 tvName.text = oldSampleList[position].name
+
+                cvItems.setOnClickListener {
+                    clickListener.onClicked(position)
+                }
             }
         }
     }

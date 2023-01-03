@@ -6,15 +6,17 @@ import android.text.InputType
 import android.util.Log
 import android.view.View
 import android.widget.EditText
+import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.google.android.material.snackbar.Snackbar
 import com.rajpakhurde.diffutil_recyclerview.databinding.ActivityMainBinding
 
 class MainActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityMainBinding
-    private val sampleAdapter by lazy { SampleAdapter() }
+    private lateinit var adabter : SampleAdapter
     val nameList = mutableListOf<SampleModel>()
     var i = 1
 
@@ -27,10 +29,17 @@ class MainActivity : AppCompatActivity() {
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
+        adabter = SampleAdapter(object : SampleAdapter.ItemClickedListener {
+            override fun onClicked(position: Int) {
+                Toast.makeText(this@MainActivity,"You clicked on $position item and name is ${nameList[position].name}",Toast.LENGTH_SHORT).show()
+            }
+
+        })
+
         binding.apply {
             rvMain.apply {
                 layoutManager = LinearLayoutManager(this@MainActivity)
-                adapter = sampleAdapter
+                adapter = adabter
             }
         }
 
@@ -48,7 +57,7 @@ class MainActivity : AppCompatActivity() {
             .setPositiveButton("Add"){_,_->
                 var text = editText.text.toString()
                 nameList.add(SampleModel(i++,text))
-                 sampleAdapter.setData(nameList)
+                    adabter.setData(nameList)
             }.create().show()
     }
 
